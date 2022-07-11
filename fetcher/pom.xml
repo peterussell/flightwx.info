@@ -45,7 +45,7 @@
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>libs/</classpathPrefix>
                             <mainClass>
-                                nz.httpete.fetcher.Fetcher
+                                nz.httpete.fetcher.Main
                             </mainClass>
                         </manifest>
                     </archive>

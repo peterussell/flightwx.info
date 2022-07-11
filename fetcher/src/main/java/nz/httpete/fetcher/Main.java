@@ -1,11 +1,8 @@
 package nz.httpete.fetcher;
 
-    public class Fetcher {
+public class Main {
     public static void main(String[] args) {
-        System.out.println("Hello from the world's newest Java container!");
-    }
-
-    private void UpdateSectionals() {
-
+        Fetcher fetcher = new Fetcher("https://faa.gov"); // TODO: load from env-based config
+        fetcher.Run();
     }
 }
