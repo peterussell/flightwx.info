@@ -6,7 +6,7 @@ resource "aws_iam_user" "github_deployer" {
   }
 }
 
-resource "aws_iam_access_key" "github_deployer_access_key_v2" {
+resource "aws_iam_access_key" "github_deployer_access_key" {
   user = "${aws_iam_user.github_deployer.name}"
 }
 
@@ -31,5 +31,5 @@ EOF
 }
 
 output "github_deployer_secret" {
-  value = "${aws_iam_access_key.github_deployer_access_key_v2.encrypted_secret}"
+  value = "${aws_iam_access_key.github_deployer_access_key.encrypted_secret}"
 }
