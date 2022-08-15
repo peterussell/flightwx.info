@@ -1,5 +1,3 @@
-# Pete's Map Project
+# FlightWX.info
 
-### Trello
-
-[https://trello.com/b/Rt2gAYKM/project](https://trello.com/b/Rt2gAYKM/project)
+Aviation weather.
