@@ -28,10 +28,6 @@ jobs:
     - name: Set up Terraform
       uses: hashicorp/setup-terraform@v2
 
-    # - name: Terraform fmt
-    #   id: fmt
-    #   run: terraform -chdir=${GITHUB_WORKSPACE}/iac fmt -check
-
     - name: Terraform init
       id: init
       run: terraform -chdir=${GITHUB_WORKSPACE}/iac init

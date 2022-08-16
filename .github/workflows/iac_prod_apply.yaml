@@ -18,17 +18,18 @@ jobs:
     - name: Check out repository
       uses: actions/checkout@v3
 
-    - name: Change to IaC directory
-      run: cd ./iac
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-west-2
 
     - name: Set up Terraform
       uses: hashicorp/setup-terraform@v2
 
-    - name: Terraform fmt
-      run: terraform fmt -check
-
     - name: Terraform init
-      run: terraform init
+      run: terraform -chdir=${GITHUB_WORKSPACE}/iac init
 
     - name: Terraform apply
-      run: terraform apply -auto-approve -input=false -var environment="prod"
+      run: terraform -chdir=${GITHUB_WORKSPACE}/iac apply -auto-approve -input=false -var environment="prod"
