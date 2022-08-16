@@ -1,0 +1,17 @@
+# 1. Build app
+FROM mcr.microsoft.com/dotnet/sdk:6.0 AS fetcher-build
+WORKDIR /app
+
+# Run restore as its own layer
+COPY *.csproj ./
+RUN dotnet restore
+
+# Copy the remaining app and build
+COPY . ./
+RUN dotnet publish -c Release -o out
+
+# 2. Build runtime image
+FROM mcr.microsoft.com/dotnet/aspnet:6.0
+WORKDIR /app
+COPY --from=fetcher-build /app/out .
+ENTRYPOINT ["dotnet", "fetcher.dll"]

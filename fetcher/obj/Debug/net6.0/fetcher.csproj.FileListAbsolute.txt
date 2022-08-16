@@ -1,0 +1,15 @@
+/Users/pete/dev/flightwx.info/fetcher/bin/Debug/net6.0/fetcher
+/Users/pete/dev/flightwx.info/fetcher/bin/Debug/net6.0/fetcher.deps.json
+/Users/pete/dev/flightwx.info/fetcher/bin/Debug/net6.0/fetcher.runtimeconfig.json
+/Users/pete/dev/flightwx.info/fetcher/bin/Debug/net6.0/fetcher.dll
+/Users/pete/dev/flightwx.info/fetcher/bin/Debug/net6.0/fetcher.pdb
+/Users/pete/dev/flightwx.info/fetcher/obj/Debug/net6.0/fetcher.csproj.AssemblyReference.cache
+/Users/pete/dev/flightwx.info/fetcher/obj/Debug/net6.0/fetcher.GeneratedMSBuildEditorConfig.editorconfig
+/Users/pete/dev/flightwx.info/fetcher/obj/Debug/net6.0/fetcher.AssemblyInfoInputs.cache
+/Users/pete/dev/flightwx.info/fetcher/obj/Debug/net6.0/fetcher.AssemblyInfo.cs
+/Users/pete/dev/flightwx.info/fetcher/obj/Debug/net6.0/fetcher.csproj.CoreCompileInputs.cache
+/Users/pete/dev/flightwx.info/fetcher/obj/Debug/net6.0/fetcher.dll
+/Users/pete/dev/flightwx.info/fetcher/obj/Debug/net6.0/refint/fetcher.dll
+/Users/pete/dev/flightwx.info/fetcher/obj/Debug/net6.0/fetcher.pdb
+/Users/pete/dev/flightwx.info/fetcher/obj/Debug/net6.0/fetcher.genruntimeconfig.cache
+/Users/pete/dev/flightwx.info/fetcher/obj/Debug/net6.0/ref/fetcher.dll
