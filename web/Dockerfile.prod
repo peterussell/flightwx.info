@@ -1,6 +1,4 @@
-# -----------------
-# Step 1: build app
-# -----------------
+# 1. Build app
 FROM node:alpine AS web-build
 WORKDIR /app
 
@@ -15,9 +13,7 @@ RUN yarn install
 COPY . ./
 RUN yarn build
 
-# -------------------------------
-# Step 2: create production image
-# -------------------------------
+# 2. Build runtime image
 FROM nginx:stable-alpine
 COPY --from=web-build /app/build /usr/share/nginx/html
 COPY nginx/nginx.conf /etc/nginx/conf.d/default.conf
