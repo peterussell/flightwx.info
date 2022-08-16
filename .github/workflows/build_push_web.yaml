@@ -1,5 +1,8 @@
 name: Build web image and push to ECR
-on: push
+on:
+  push:
+    paths:
+      - web/**
 concurrency:
   group: build_docker_image_web
 jobs:
