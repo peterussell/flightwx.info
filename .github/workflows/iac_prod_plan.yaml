@@ -18,11 +18,6 @@ jobs:
     - name: Check out repository
       uses: actions/checkout@v3
 
-    - name: Change to IaC directory
-      run: |
-        cd ./iac
-        ls
-
     - name: Set up Terraform
       uses: hashicorp/setup-terraform@v2
 
@@ -40,7 +35,7 @@ jobs:
 
     - name: Terraform plan
       id: plan
-      run: terraform plan -no-color -input=false -var environment="prod"
+      run: terraform -chdir=${GITHUB_WORKSPACE}/iac plan -no-color -input=false -var environment="prod"
       continue-on-error: true
 
     - name: Update pull request
