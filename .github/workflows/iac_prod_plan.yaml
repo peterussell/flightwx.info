@@ -23,15 +23,15 @@ jobs:
 
     - name: Terraform fmt
       id: fmt
-      run: terraform fmt -check
+      run: terraform -chdir=${GITHUB_WORKSPACE}/iac fmt -check
 
     - name: Terraform init
       id: init
-      run: terraform init
+      run: terraform -chdir=${GITHUB_WORKSPACE}/iac init
 
     - name: Terraform validate
       id: validate
-      run: terraform validate -no-color
+      run: terraform -chdir=${GITHUB_WORKSPACE}/iac validate -no-color
 
     - name: Terraform plan
       id: plan
