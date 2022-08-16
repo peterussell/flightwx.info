@@ -18,6 +18,9 @@ jobs:
     - name: Check out repository
       uses: actions/checkout@v3
 
+    - name: Change to IaC directory
+      run: cd iac
+
     - name: Set up Terraform
       uses: hashicorp/setup-terraform@v2
 
