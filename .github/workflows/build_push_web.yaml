@@ -30,25 +30,25 @@ jobs:
       id: login-ecr
       uses: aws-actions/amazon-ecr-login@v1
 
-    # Push to staging if on staging branch
+    # Staging
     - name: Build, tag, and push to ECR
       if: github.ref == 'refs/heads/staging'
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-        ECR_REPOSITORY: web-staging
-        IMAGE_TAG: ${{ github.sha }}
+        ECR_REPOSITORY: web
+        IMAGE_TAG: ${{ github.sha }}-staging
       run: |
         cd web
         docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG -f Dockerfile.prod .
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
 
-    # Push to prod if on main branch
+    # Prod
     - name: Build, tag, and push to ECR
       if: github.ref == 'refs/heads/main'
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-        ECR_REPOSITORY: web-prod
-        IMAGE_TAG: ${{ github.sha }}
+        ECR_REPOSITORY: web
+        IMAGE_TAG: ${{ github.sha }}-prod
       run: |
         cd web
         docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG -f Dockerfile.prod .
