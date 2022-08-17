@@ -1,5 +1,5 @@
 resource "aws_ecr_repository" "fetcher" {
-  name = "fetcher"
+  name = "fetcher-${var.environment}"
   image_tag_mutability = "MUTABLE"
 
   image_scanning_configuration {
@@ -12,7 +12,7 @@ resource "aws_ecr_repository" "fetcher" {
 }
 
 resource "aws_ecr_repository" "web" {
-  name = "web"
+  name = "web-${var.environment}"
   image_tag_mutability = "MUTABLE"
 
   image_scanning_configuration {
