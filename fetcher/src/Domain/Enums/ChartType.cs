@@ -1,6 +1,7 @@
 namespace Fetcher.Domain.Enums;
 
-enum ChartType {
+enum ChartType
+{
     Sectional,
     TerminalArea,
     Helicopter,

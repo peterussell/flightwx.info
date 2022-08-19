@@ -2,7 +2,8 @@ using System;
 
 namespace Fetcher.Domain.Entities;
 
-class ChartEdition {
+class ChartEdition
+{
     public DateTime EditionDate { get; private set; }
     public Uri ZipUrl { get; private set; }
     public Uri PdfUrl { get; private set; }
