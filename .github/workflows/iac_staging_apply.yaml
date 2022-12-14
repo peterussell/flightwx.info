@@ -1,0 +1,41 @@
+name: Staging - apply infra
+
+on:
+  push:
+    branches:
+      - "staging"
+    paths:
+      - "iac/**"
+
+concurrency:
+  group: terraform_iac_staging
+
+jobs:
+  terraform:
+    name: Terraform apply (staging)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v3
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-southeast-2
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v2
+
+      - name: Terraform init
+        run: >
+          terraform -chdir=${GITHUB_WORKSPACE}/iac init -input=false
+          -backend-config='bucket=flightwx.info-tf-state-staging'
+          -backend-config='key=staging.tfstate'
+          -backend-config='role_arn=${{ secrets.AWS_STAGING_DEPLOY_ROLE_ARN }}'
+
+      - name: Terraform apply
+        run: >
+          terraform -chdir=${GITHUB_WORKSPACE}/iac apply -auto-approve -input=false
+          -var='environment=staging' -var='deployer_role_arn=${{ secrets.AWS_STAGING_DEPLOY_ROLE_ARN }}'
