@@ -57,7 +57,7 @@ jobs:
             #### terraform plan: \`${{ steps.plan.outcome }}\`
             #### terraform validate: \`${{ steps.validate.outcome }}\`
 
-            <details><summary>Show Planets</summary>
+            <details><summary>Show Plan</summary>
 
             \`\`\`\n
             ${process.env.PLAN}
