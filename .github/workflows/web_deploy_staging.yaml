@@ -1,0 +1,47 @@
+# name: Staging - Deploy website
+
+# on:
+#   push:
+#     branches:
+#       - "staging"
+#     paths:
+#       - "web/**"
+
+# concurrency:
+#   group: web_deploy_staging
+
+# jobs:
+#   deploy:
+#     name: "Deploy web (staging)"
+#     runs-on: ubuntu-latest
+#     defaults:
+#       run:
+#         working-directory: ./web
+#     steps:
+#     - name: Check out repository
+#       uses: actions/checkout@v3
+
+#     - name: Configure AWS credentials
+#       uses: aws-actions/configure-aws-credentials@v1
+#       with:
+#         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }} # change to staging?
+#         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }} # change to staging?
+#         aws-region: us-west-2
+
+#     - name: Log in to ECR
+#       id: login-ecr
+#       uses: aws-actions/amazon-ecr-login@v1
+
+#     - name: Build, tag, and push to ECR
+#       env:
+#         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+#         ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY }}
+#         IMAGE_TAG: ${{ github.sha }}
+#       run: |
+#         cd web
+#         docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG -f Dockerfile.prod .
+#         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+
+#     - name: Log out of ECR
+#       if: always()
+#       run: docker logout ${{ steps.login-ecr.registry }}

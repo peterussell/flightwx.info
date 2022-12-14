@@ -15,20 +15,25 @@ terraform {
 
 provider "aws" {
   region = "${local.region}"
+
+  assume_role {
+    role_arn = "${var.deployer_role_arn}"
+  }
 }
 
 ### Modules
 
 module "ecr" {
   source = "./modules/ecr"
-
-  # Variables
   environment = "${var.environment}"
 }
 
 module "iam" {
   source = "./modules/iam"
+  environment = "${var.environment}"
+}
 
-  # Variables
+module "s3" {
+  source = "./modules/s3"
   environment = "${var.environment}"
 }

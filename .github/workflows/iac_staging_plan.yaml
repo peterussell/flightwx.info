@@ -1,0 +1,82 @@
+name: Staging - plan infra
+
+on:
+  pull_request:
+    branches:
+      - "staging"
+    paths:
+      - "iac/**"
+
+concurrency:
+  group: terraform_iac_staging
+
+jobs:
+  terraform:
+    name: Terraform plan (staging)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v3
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-southeast-2
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v2
+
+      - name: Terraform init
+        id: init
+        run: >
+          terraform -chdir=${GITHUB_WORKSPACE}/iac init -input=false
+          -backend-config='bucket=flightwx.info-tf-state-staging'
+          -backend-config='key=staging.tfstate'
+          -backend-config='role_arn=${{ secrets.AWS_STAGING_DEPLOY_ROLE_ARN }}'
+
+      - name: Terraform validate
+        id: validate
+        run: terraform -chdir=${GITHUB_WORKSPACE}/iac validate -no-color
+
+      - name: Terraform plan
+        id: plan
+        run: >
+          terraform -chdir=${GITHUB_WORKSPACE}/iac plan -no-color -input=false
+          -var='environment=staging' -var='deployer_role_arn=${{ secrets.AWS_STAGING_DEPLOY_ROLE_ARN }}'
+
+      - name: Update pull request
+        uses: actions/github-script@v6
+        env:
+          PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const output = `#### terraform init: \`${{ steps.init.outcome }}\`
+            #### terraform plan: \`${{ steps.plan.outcome }}\`
+            #### terraform validate: \`${{ steps.validate.outcome }}\`
+
+            <details><summary>Show Plan</summary>
+
+            \`\`\`\n
+            ${process.env.PLAN}
+            \`\`\`
+
+            </details>
+
+            *Pushed by: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: output
+            })
+
+      - name: Terraform plan status
+        if: steps.plan.outcome == 'failure'
+        run: exit 1
+
+
+
