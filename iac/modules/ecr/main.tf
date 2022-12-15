@@ -20,6 +20,6 @@ resource "aws_ecr_repository" "api" {
   }
 
   tags = {
-    Environment = "${var.environment}"
+    Environment = "${var.environment}s"
   }
 }
