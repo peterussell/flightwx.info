@@ -1,0 +1,48 @@
+name: Staging - deploy website
+
+on:
+  push:
+    branches:
+      - "staging"
+    paths:
+      - "web/**"
+
+concurrency:
+  group: terraform_web_staging
+
+jobs:
+  deploy:
+    name: Deploy web (staging)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./web
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v3
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.PROD_DEPLOYER_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.PROD_DEPLOYER_SECRET_ACCESS_KEY }}
+          aws-region: us-west-2
+      
+      - name: Set up node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+
+      - name: Install dependencies
+        run: yarn install
+
+      # TODO: run tests
+      # - name: Run tests
+      #   run: yarn run test
+
+      - name: Build
+        run: yarn run build
+
+      - name: Deploy
+        if: success()
+        run: aws s3 sync ./build s3://prod.flightwx.info/

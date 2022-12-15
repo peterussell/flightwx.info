@@ -20,7 +20,8 @@ resource "aws_iam_user_policy" "github_deployer_policy" {
   "Statement": [
     {
       "Action": [
-        "ecr:*"
+        "ecr:*",
+        "s3:PutObject"
       ],
       "Effect": "Allow",
       "Resource": "*"
@@ -32,4 +33,5 @@ EOF
 
 output "github_deployer_secret" {
   value = "${aws_iam_access_key.github_deployer_access_key.encrypted_secret}"
+  sensitive = true
 }
