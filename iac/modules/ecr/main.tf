@@ -12,7 +12,7 @@ resource "aws_ecr_repository" "fetcher" {
 }
 
 resource "aws_ecr_repository" "web" {
-  name = "web"
+  name = "fetcher"
   image_tag_mutability = "MUTABLE"
 
   image_scanning_configuration {

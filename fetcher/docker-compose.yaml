@@ -1,9 +1,8 @@
-version: '3.7'
+version: '3.9'
 
 services:
-  flightwx-fetcher:
-    container_name: flightwx-fetcher
+  gsnz-api:
+    container_name: fwx-fetcher
     build:
       context: .
-      dockerfile: Dockerfile.prod
-    ports: '8081:80'
+      dockerfile: Dockerfile.staging
