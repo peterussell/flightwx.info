@@ -2,8 +2,9 @@
 A module for interacting with the faa.gov aeronautical chart API
 """
 
-from models.geoname import Geoname
 import api.api as api
+from models.geoname import Geoname
+import filesystem
 
 __all__ = ["update_charts"]
 
@@ -13,10 +14,17 @@ SECTIONAL_INFO_URL = f"{SECTIONAL_URL}/info"
 def _get_sectional_info(geoname: Geoname) -> None:
     api.get(f"{SECTIONAL_INFO_URL}?geoname={geoname.value}")
 
+def _get_sectional_chart(geoname: Geoname) -> None:
+    api.get(f"{SECTIONAL_URL}?geoname={geoname.value}")
+
 def update_sectional_charts() -> None:
-    """Updates sectional charts"""
     print("Updating sectional charts")
-    _get_sectional_info(Geoname.ALBUQUERQUE) # testing
+    for chart in Geoname:
+        if not filesystem.is_chart_current(chart):
+            print(f"Update required for chart {chart.value}")
+            _get_sectional_chart(chart)
+        else:
+            print(f"No update required for chart {chart.value}")
 
 def update_terminal_area_charts() -> None:
     """Updates terminal area charts"""

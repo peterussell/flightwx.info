@@ -1,7 +1,7 @@
-import os
 from dotenv import load_dotenv
-import urllib3
 import json
+import os
+import urllib3
 from urllib3 import HTTPResponse
 
 from api.http_verbs import HttpVerbs
@@ -14,14 +14,18 @@ http = urllib3.PoolManager()
 def _full_url(path: str) -> str:
     return f"{base_url}/{path}"
 
-def _get_response_body(response: HTTPResponse) -> any:
-    # return json.loads(response.data.decode("utf-8"))
-    return response.data.decode("utf-8")
+def get(path: str) -> HTTPResponse:
+    return http.request(
+        HttpVerbs.GET.value,
+        _full_url(path),
+        headers={
+            "Content-Type": "application/json"
+        }
+    )
 
-def get(path: str) -> None:
-    print(f"Getting path {base_url}/{path}")
-    res: HTTPResponse = http.request(HttpVerbs.GET.value, _full_url(path))
-
-    print(f"API response status: {res.status}")
-    print("Response data")
-    print(_get_response_body(res))
+def post(path: str, body: str) -> HTTPResponse:
+    return http.request(
+        HttpVerbs.POST.value,
+        _full_url(path),
+        body=body
+    )
