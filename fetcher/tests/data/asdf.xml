@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<productSet xmlns="http://arpa.ait.faa.gov/arpa_response">
+  <status code="200" message="OK"/>
+  <edition geoname="Chicago" editionName="CURRENT" format="TIFF">
+    <editionDate>12/29/2022</editionDate>
+    <editionNumber>114</editionNumber>
+    <product productName="SECTIONAL" url="https://aeronav.faa.gov/visual/12-29-2022/sectional-files/Chicago.zip"/>
+  </edition>
+</productSet>'
