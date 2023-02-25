@@ -9,7 +9,7 @@ def map_chart_edition(res: HTTPResponse) -> ChartEdition:
     """
     Maps a chart edition HTTPResponse from the FAA API to a ChartEdition object
     """
-    root = ET.fromstring(res.data.decode("utf-8"))
+    root = ET.fromstring(res.text)
     edition = root.find("product_set:edition", NS)
 
     # Geoname, edition name, and format are attributes of <edition>

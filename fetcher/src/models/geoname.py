@@ -55,4 +55,4 @@ class Geoname(Enum):
     CAPE_LISBURNE = "Cape Lisburne"
     CHARLOTTE = "Charlotte"
     CHEYENNE = "Cheyenne"
-    
+    NONE = ""

@@ -22,9 +22,9 @@ class ChartService:
         # Check whether the chart needs an update (can we do this without making an API call?)
         ce: ChartEdition = self.faa_service.get_vfr_chart_edition(ChartType.SECTIONAL, chart_name)
 
-        if not self.filesystem.is_chart_current(ce):
-            print(f"{chart_name}\tUPDATE REQUIRED")
-            # self.faa_service.update_chart(ce)
+        if not self.filesystem.is_saved_chart_current(ce):
+            print(f"{chart_name.value}\t\tUPDATE REQUIRED")
+            self.faa_service.update_chart(ce)
 
         else:
-            print(f"{chart_name}\tCurrent")
+            print(f"{chart_name.value}\t\tCurrent")

@@ -1,7 +1,7 @@
 """
 A module for interacting with the faa.gov aeronautical chart API
 """
-from urllib3 import HTTPResponse
+from requests import Response
 
 import api.api as api
 from filesystem.filesystem import Filesystem
@@ -16,6 +16,7 @@ class FAAService:
     def __init__(self, filesystem: Filesystem):
         self.filesystem = filesystem
 
+
     def get_vfr_chart_edition(self, chart_type: ChartType, geoname: Geoname) -> ChartEdition | None:
         """
         Gets the chart edition metadata for a VFR chart for the specified chart
@@ -23,27 +24,32 @@ class FAAService:
         """
         url = self._get_vfr_chart_edition_url(chart_type, geoname)
 
-        res: HTTPResponse = api.get(url)
+        res: Response = api.get(url) # TODO: is there a type from responses
 
-        if (res.status != 200):
+        if (res.status_code != 200):
             err_msg = f"Failed to fetch {chart_type.value} chart edition for {geoname.value} "
             err_msg += f"(response code: {res.status}, request URL: {url})"
             raise RuntimeError(err_msg)
 
         return map_chart_edition(res)
 
+
     def update_chart(self, chart_edition: ChartEdition) -> str:
         """
         Downloads the chart file for chart_edition and saves to the filesystem
         """
-        path = self.filesystem.get_filename(chart_edition)
-        api.download_file(chart_edition.product_url, path, self.filesystem)
+        filename = self.filesystem.get_filename(chart_edition)
+        api.download_file(chart_edition.product_url, filename)
+
+        # TODO -- working here (2):
+        # Delete the old chart file (if one was found)
+
 
     def _get_vfr_chart_edition_url(self, chart_type: ChartType, geoname: Geoname) -> str:
         return f"vfr/{chart_type.value}/chart?geoname={geoname.value}&edition=current&format=tiff"
 
 
-    
+
 
 
 

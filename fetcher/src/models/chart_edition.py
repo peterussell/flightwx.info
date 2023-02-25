@@ -8,20 +8,24 @@ from models.geoname import Geoname
 
 class ChartEdition:
     """Represents an edition/release of an aeronautical chart."""
+
+    FILESYSTEM_DATE_FORMAT = "%Y-%m-%d"
+    API_DATE_FORMAT = "%m/%d/%Y"
+
     def __init__(
         self,
-        geoname: Geoname,
-        edition_name: str,
-        file_format: str,
-        edition_date: str, # TODO: date type?
-        edition_number: int,
-        product_name: str,
-        product_url: str
+        geoname: Geoname = Geoname.NONE,
+        edition_name: str = "",
+        file_format: str = "",
+        edition_date: str = "",
+        edition_number: int = None,
+        product_name: str  = "",
+        product_url: str = ""
         ):
-        self.geoname = geoname
+        self.geoname = Geoname(geoname)
         self.edition_name = edition_name
         self.file_format = file_format
-        self.edition_date = datetime.strptime(edition_date, "%m/%d/%Y")
+        self.edition_date = self.parse_edition_date(edition_date)
         self.edition_number = edition_number
         self.product_name = product_name
         self.product_url = product_url
@@ -31,7 +35,7 @@ class ChartEdition:
             "Geoname": self.geoname,
             "Edition name" : self.edition_name,
             "File format": self.file_format,
-            "Edition date": datetime.strftime(self.edition_date, "%m/%d/%Y"),
+            "Edition date": self.get_formatted_edition_date(),
             "Edition number" : self.edition_number,
             "Product name" : self.product_name,
             "URL": self.product_url,
@@ -43,10 +47,36 @@ class ChartEdition:
 
         return res
 
+
+    def parse_edition_date(self, edition_date: str) -> datetime:
+        """Parses the edition date in FAA format into a python datetime"""
+        if edition_date == "":
+            return None
+
+        return datetime.strptime(edition_date, ChartEdition.API_DATE_FORMAT)
+
+
+    def parse_formatted_edition_date(self, edition_date: str) -> datetime:
+        """Parses the edition date formatted for the local filesystem (YYYY-mm-dd)"""
+        if edition_date == "":
+            return None
+
+        return datetime.strptime(edition_date, ChartEdition.FILESYSTEM_DATE_FORMAT)
+
+
     def get_formatted_edition_date(self) -> str:
         """Returns the edition date formatted as YYYY-mm-dd"""
-        if self.edition_date is None or len(self.edition_date) == 0:
+        if self.edition_date is None:
             return ""
 
-        parsed = datetime.strptime(self.edition_date, "mm/dd/YYYY")
-        return datetime.strftime(parsed, "YYYY-mm-dd")
+        return datetime.strftime(self.edition_date, ChartEdition.FILESYSTEM_DATE_FORMAT)
+
+    # TODO -- working here: move all the filename stuff into here, ChartEdition
+    # should handle the to/from filename conversions, not the filesystem
+
+    def get_filename_prefix(self) -> str:
+        """
+        Returns the chart filename prefix (product name and geoname) without
+        any version or date information, eg. "sectional_chicago"
+        """
+        return f"{self.product_name}_{self.geoname.value}"
