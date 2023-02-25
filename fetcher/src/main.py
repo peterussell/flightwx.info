@@ -1,5 +1,11 @@
 """An application to fetch and parse FAA aeronuatical charts"""
-import api.faa_api as faa_api
+from filesystem.local_filesystem import LocalFilesystem
+from services.chart_service import ChartService
+from services.faa_service import FAAService
 
 if __name__ == "__main__":
-    faa_api.update_sectional_charts()
+    fs = LocalFilesystem()
+    faa = FAAService(fs)
+    cs = ChartService(fs, faa)
+
+    cs.update_sectional_charts()

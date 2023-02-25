@@ -42,3 +42,11 @@ class ChartEdition:
             res += f"{k}: {v}\n"
 
         return res
+
+    def get_formatted_edition_date(self) -> str:
+        """Returns the edition date formatted as YYYY-mm-dd"""
+        if self.edition_date is None or len(self.edition_date) == 0:
+            return ""
+
+        parsed = datetime.strptime(self.edition_date, "mm/dd/YYYY")
+        return datetime.strftime(parsed, "YYYY-mm-dd")

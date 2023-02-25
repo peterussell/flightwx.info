@@ -1,3 +1,5 @@
+<!-- https://https://soa.smext.faa.gov/apra/vfr/sectional/chart?geoname=Chicago&edition=current&format=tiff -->
+
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <productSet xmlns="http://arpa.ait.faa.gov/arpa_response">
   <status code="200" message="OK"/>
@@ -6,4 +8,4 @@
     <editionNumber>114</editionNumber>
     <product productName="SECTIONAL" url="https://aeronav.faa.gov/visual/12-29-2022/sectional-files/Chicago.zip"/>
   </edition>
-</productSet>'
+</productSet>
