@@ -1,3 +1,4 @@
+# --- Web ---
 resource "aws_s3_bucket" "fwx_web" {
   bucket = "${var.environment}.flightwx.info"
 
@@ -21,4 +22,18 @@ resource "aws_s3_bucket_website_configuration" "fwx_web_website_configuration" {
   error_document {
     key = "error.html"
   }
+}
+
+# --- Charts ---
+resource "aws_s3_bucket" "fwx_fetcher_charts" {
+  bucket = "flightwx-charts-${var.environment}"
+
+  tags = {
+    Environment = "${var.environment}"
+  }
+}
+
+resource "aws_s3_bucket_acl" "fwx_web_acl" {
+  bucket = "${aws_s3_bucket.fwx_web.id}"
+  acl = "public-read"
 }
