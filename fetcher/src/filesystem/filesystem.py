@@ -18,7 +18,7 @@ class Filesystem:
 
 
     @abstractmethod
-    def is_saved_chart_current(self, chart_name: Geoname) -> bool:
+    def get_saved_chart_edition(self, chart_name: Geoname) -> ChartEdition | None:
         pass
 
 

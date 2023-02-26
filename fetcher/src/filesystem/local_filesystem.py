@@ -8,7 +8,7 @@ class LocalFilesystem(Filesystem):
     CHARTS_BASE_PATH = "../charts"
 
     # TODO: tests
-    def is_saved_chart_current(self, api_chart_edition: ChartEdition) -> bool:
+    def get_saved_chart_edition(self, api_chart_edition: ChartEdition) -> ChartEdition | None:
         """
         Returns a value indicating whether the API chart is newer than the saved chart,
         or False if no saved chart was found.
@@ -21,7 +21,7 @@ class LocalFilesystem(Filesystem):
 
         if len(matching_charts) == 0:
             # No charts found for this product and geoname, so return 'not current'
-            return False
+            return None
 
         if len(matching_charts) > 1:
             # More than one chart found, uh oh...
@@ -29,9 +29,7 @@ class LocalFilesystem(Filesystem):
 
         # One chart found, now we just need to check the version
         filename = matching_charts[0]
-        local_chart_edition = super()._get_edition_from_filename(LocalFilesystem.CHARTS_BASE_PATH, filename)
-
-        return super()._is_chart_current(local_chart_edition, api_chart_edition)
+        return super()._get_edition_from_filename(LocalFilesystem.CHARTS_BASE_PATH, filename)
 
 
     def get_filename(self, chart_edition: ChartEdition) -> str:

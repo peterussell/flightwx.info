@@ -34,6 +34,9 @@ class FAAService:
         return map_chart_edition(res)
 
 
+    def is_chart_current(self, saved_chart: ChartEdition, api_chart: ChartEdition) -> bool:
+        return saved_chart.edition_number >= api_chart.edition_number
+
     def update_chart(self, chart_edition: ChartEdition) -> str:
         """
         Downloads the chart file for chart_edition and saves to the filesystem

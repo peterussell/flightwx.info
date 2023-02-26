@@ -20,11 +20,12 @@ class ChartService:
         chart_name = Geoname.CHICAGO
     
         # Check whether the chart needs an update (can we do this without making an API call?)
-        ce: ChartEdition = self.faa_service.get_vfr_chart_edition(ChartType.SECTIONAL, chart_name)
+        api_chart: ChartEdition = self.faa_service.get_vfr_chart_edition(ChartType.SECTIONAL, chart_name)
+        saved_chart = self.filesystem.get_saved_chart_edition(api_chart)
 
-        if not self.filesystem.is_saved_chart_current(ce):
+        if not self.faa_service.is_chart_current(saved_chart, api_chart):
             print(f"{chart_name.value}\t\tUPDATE REQUIRED")
-            self.faa_service.update_chart(ce)
+            self.faa_service.update_chart(api_chart)
 
         else:
             print(f"{chart_name.value}\t\tCurrent")
