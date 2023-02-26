@@ -25,7 +25,7 @@ resource "aws_s3_bucket_website_configuration" "fwx_web_website_configuration" {
 }
 
 # --- Charts ---
-resource "aws_s3_bucket" "fwx_fetcher_charts" {
+resource "aws_s3_bucket" "fwx_charts" {
   bucket = "flightwx-charts-${var.environment}"
 
   tags = {
@@ -33,7 +33,7 @@ resource "aws_s3_bucket" "fwx_fetcher_charts" {
   }
 }
 
-resource "aws_s3_bucket_acl" "fwx_web_acl" {
+resource "aws_s3_bucket_acl" "fwx_charts_acl" {
   bucket = "${aws_s3_bucket.fwx_web.id}"
   acl = "public-read"
 }
