@@ -10,6 +10,7 @@ class ChartService:
         self.filesystem = filesystem
         self.faa_service = faa_service
 
+
     def update_sectional_charts(self) -> None:
         """
         Checks charts on the filesystem against current versions specified by the
@@ -18,14 +19,18 @@ class ChartService:
         # tmp - test with single chart 
         # for chart_name in Geoname: # tmp - uncomment when working
         chart_name = Geoname.CHICAGO
-    
+
         # Check whether the chart needs an update (can we do this without making an API call?)
         api_chart: ChartEdition = self.faa_service.get_vfr_chart_edition(ChartType.SECTIONAL, chart_name)
         saved_chart = self.filesystem.get_saved_chart_edition(api_chart)
 
-        if not self.faa_service.is_chart_current(saved_chart, api_chart):
-            print(f"{chart_name.value}\t\tUPDATE REQUIRED")
-            self.faa_service.update_chart(api_chart)
+        if self.faa_service.is_chart_current(saved_chart, api_chart):
+            print(f"{chart_name.value}\t\tCurrent")
 
         else:
-            print(f"{chart_name.value}\t\tCurrent")
+            print(f"{chart_name.value}\t\tUpdate required")
+            self.faa_service.download_chart(api_chart)
+
+            if saved_chart is not None:
+                print(f"Deleting old chart, version {saved_chart.edition_number}")
+                self.filesystem.delete_chart(saved_chart)

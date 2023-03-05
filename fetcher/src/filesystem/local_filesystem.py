@@ -1,4 +1,4 @@
-import os.path
+import os
 import glob
 
 from filesystem.filesystem import Filesystem
@@ -30,6 +30,15 @@ class LocalFilesystem(Filesystem):
         # One chart found, now we just need to check the version
         filename = matching_charts[0]
         return super()._get_edition_from_filename(LocalFilesystem.CHARTS_BASE_PATH, filename)
+
+
+    def delete_chart(self, chart_edition: ChartEdition) -> None:
+        filename = super()._get_filename(LocalFilesystem.CHARTS_BASE_PATH, chart_edition)
+
+        try:
+            os.remove(filename)
+        except OSError as e:
+            print(f"Failed to delete old chart at {e.filename} - {e.strerror}.")
 
 
     def get_filename(self, chart_edition: ChartEdition) -> str:

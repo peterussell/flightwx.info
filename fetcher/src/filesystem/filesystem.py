@@ -22,6 +22,11 @@ class Filesystem:
         pass
 
 
+    @abstractmethod
+    def delete_chart(self, chart_edition: ChartEdition) -> None:
+        pass
+
+
     # TODO: change to get_file_path, and internally call ChartEdition.get_filename(),
     # and prefix with base_path (in concrete classes)
     @abstractmethod
@@ -54,7 +59,7 @@ class Filesystem:
         # TODO: move this somewhere else, and is there a more pythonic way to do this?
         geoname: Geoname = None
         for g in Geoname:
-            if g.value == parts[1]:
+            if g.value.lower() == parts[1]:
                 geoname = g
 
         edition = ChartEdition()

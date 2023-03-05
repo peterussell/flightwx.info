@@ -24,7 +24,7 @@ class FAAService:
         """
         url = self._get_vfr_chart_edition_url(chart_type, geoname)
 
-        res: Response = api.get(url) # TODO: is there a type from responses
+        res: Response = api.get(url)
 
         if (res.status_code != 200):
             err_msg = f"Failed to fetch {chart_type.value} chart edition for {geoname.value} "
@@ -35,17 +35,19 @@ class FAAService:
 
 
     def is_chart_current(self, saved_chart: ChartEdition, api_chart: ChartEdition) -> bool:
+        if saved_chart is None:
+            return False
+
         return saved_chart.edition_number >= api_chart.edition_number
 
-    def update_chart(self, chart_edition: ChartEdition) -> str:
+
+    def download_chart(self, chart_edition: ChartEdition) -> str:
         """
         Downloads the chart file for chart_edition and saves to the filesystem
         """
+        print(f"Downloading {chart_edition.product_url}...")
         filename = self.filesystem.get_filename(chart_edition)
         api.download_file(chart_edition.product_url, filename)
-
-        # TODO -- working here (2):
-        # Delete the old chart file (if one was found)
 
 
     def _get_vfr_chart_edition_url(self, chart_type: ChartType, geoname: Geoname) -> str:
