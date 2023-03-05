@@ -11,10 +11,13 @@ class LocalFilesystem(Filesystem):
     def get_saved_chart_edition(self, api_chart_edition: ChartEdition) -> ChartEdition | None:
         """
         Returns a value indicating whether the API chart is newer than the saved chart,
-        or False if no saved chart was found.
+        or False if no saved chart was found. Throws a RuntimeError if more than one
+        chart matching this chart_edition's prefix was found.
         """
         filename = api_chart_edition.get_chart_path(LocalFilesystem.CHARTS_BASE_PATH)
 
+        # Perform a fuzzy search for any local charts matching the chart prefix and
+        # return a matching result if we find a single one.
         chart_prefix = api_chart_edition.get_filename_prefix()
         search_str = f"{LocalFilesystem.CHARTS_BASE_PATH}/{chart_prefix}*.zip"
         matching_charts = glob.glob(search_str)

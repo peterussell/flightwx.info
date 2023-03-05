@@ -1,10 +1,9 @@
 from models.chart_edition import ChartEdition
-from models.geoname import Geoname
 
 from filesystem.filesystem import Filesystem
 
 class S3Filesystem(Filesystem):
-    def chart_exists(self, edition: ChartEdition) -> bool:
+    def get_saved_chart_edition(self, api_chart_edition: ChartEdition) -> ChartEdition | None:
         pass
 
 
@@ -12,9 +11,5 @@ class S3Filesystem(Filesystem):
         pass
 
 
-    def get_chart_path(self, edition: ChartEdition) -> str:
-        pass
-
-
-    def get_chart_meta(self, chart_name: Geoname) -> bool:
+    def get_chart_path(self, chart_edition: ChartEdition) -> str:
         pass
