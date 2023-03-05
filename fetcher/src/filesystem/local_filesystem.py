@@ -13,27 +13,28 @@ class LocalFilesystem(Filesystem):
         Returns a value indicating whether the API chart is newer than the saved chart,
         or False if no saved chart was found.
         """
-        filename = super()._get_filename(LocalFilesystem.CHARTS_BASE_PATH, api_chart_edition)
+        filename = api_chart_edition.get_chart_path(LocalFilesystem.CHARTS_BASE_PATH)
 
         chart_prefix = api_chart_edition.get_filename_prefix()
         search_str = f"{LocalFilesystem.CHARTS_BASE_PATH}/{chart_prefix}*.zip"
-        matching_charts = glob.glob(search_str.lower())
+        matching_charts = glob.glob(search_str)
 
         if len(matching_charts) == 0:
-            # No charts found for this product and geoname, so return 'not current'
+            # 0 charts found
             return None
 
         if len(matching_charts) > 1:
-            # More than one chart found, uh oh...
+            # >1 chart found, uh oh...
             raise RuntimeError(f"More than one saved chart found for prefix {chart_prefix}. Bailing.")
 
-        # One chart found, now we just need to check the version
+        # One chart found, return it
         filename = matching_charts[0]
-        return super()._get_edition_from_filename(LocalFilesystem.CHARTS_BASE_PATH, filename)
+        return ChartEdition.from_filename(LocalFilesystem.CHARTS_BASE_PATH, filename)
 
 
     def delete_chart(self, chart_edition: ChartEdition) -> None:
-        filename = super()._get_filename(LocalFilesystem.CHARTS_BASE_PATH, chart_edition)
+        """Deletes the chart file associated with this chart_edition."""
+        filename = chart_edition.get_chart_path(LocalFilesystem.CHARTS_BASE_PATH)
 
         try:
             os.remove(filename)
@@ -41,5 +42,6 @@ class LocalFilesystem(Filesystem):
             print(f"Failed to delete old chart at {e.filename} - {e.strerror}.")
 
 
-    def get_filename(self, chart_edition: ChartEdition) -> str:
-        return super()._get_filename(LocalFilesystem.CHARTS_BASE_PATH, chart_edition)
+    def get_chart_path(self, chart_edition: ChartEdition) -> str:
+        """Gets the path to the chart associated with this chart_edition."""
+        return chart_edition.get_chart_path(LocalFilesystem.CHARTS_BASE_PATH)

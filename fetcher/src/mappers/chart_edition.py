@@ -30,7 +30,7 @@ def map_chart_edition(res: HTTPResponse) -> ChartEdition:
         geoname,
         edition_name,
         file_format,
-        edition_date,
+        ChartEdition.parse_faa_edition_date(edition_date),
         edition_number,
         product_name,
         product_url

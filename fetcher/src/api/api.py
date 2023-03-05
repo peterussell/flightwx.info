@@ -13,18 +13,13 @@ def get(path: str) -> Response:
     return requests.get(_full_url(path), verify=False)
 
 
-# tmp - dummy fn for testing
-# def download_file(url: str, path: str, fs: Filesystem) -> None:
-#     print(f"api.download_file called. URL: {url}, path: {path}")
-
-# tmp - uncomment when we *actually* want to download files
-def download_file(url: str, filename: str) -> None:
+def download_file(url: str, file_path: str) -> None:
     """
-    Downloads the file at URL and saves it to filename
+    Downloads the file at URL and saves to file_path
     """
     with requests.get(url, stream=True) as req:
         req.raise_for_status()
-        with open(filename, 'wb') as f:
+        with open(file_path, 'wb') as f:
             for chunk in req.iter_content(chunk_size):
                 f.write(chunk)
 

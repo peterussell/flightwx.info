@@ -16,9 +16,9 @@ class ChartService:
         Checks charts on the filesystem against current versions specified by the
         FAA API, and updates any that aren't current
         """
-        # tmp - test with single chart 
+        # tmp - test with single chart
         # for chart_name in Geoname: # tmp - uncomment when working
-        chart_name = Geoname.CHICAGO
+        chart_name = Geoname.DUTCH_HARBOR
 
         # Check whether the chart needs an update (can we do this without making an API call?)
         api_chart: ChartEdition = self.faa_service.get_vfr_chart_edition(ChartType.SECTIONAL, chart_name)

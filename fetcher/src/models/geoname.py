@@ -1,4 +1,7 @@
 from enum import Enum
+from typing import Type, TypeVar
+
+T = TypeVar("T", bound="Geoname")
 
 class Geoname(Enum):
     ALBUQUERQUE = "Albuquerque"
@@ -56,3 +59,16 @@ class Geoname(Enum):
     CHARLOTTE = "Charlotte"
     CHEYENNE = "Cheyenne"
     NONE = ""
+
+
+    def to_safe_str(self):
+        return self.value.replace(" ", "%")
+
+
+    @classmethod
+    def from_safe_str(cls: Type[T], geoname_str: str) -> T:
+        if not geoname_str:
+            return None
+
+        orig = geoname_str.replace("%", " ")
+        return cls(orig)

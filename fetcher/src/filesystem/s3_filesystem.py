@@ -12,5 +12,9 @@ class S3Filesystem(Filesystem):
         pass
 
 
+    def get_chart_path(self, edition: ChartEdition) -> str:
+        pass
+
+
     def get_chart_meta(self, chart_name: Geoname) -> bool:
         pass
