@@ -18,14 +18,14 @@ class ChartEdition:
     API_DATE_FORMAT = "%m/%d/%Y"
 
     def __init__(
-        self,
-        geoname: Geoname = Geoname.NONE,
-        edition_name: str = "",
-        file_format: str = "",
-        edition_date: datetime = None,
-        edition_number: int = None,
-        product_name: str  = "",
-        product_url: str = ""
+            self,
+            geoname: Geoname = Geoname.NONE,
+            edition_name: str = "",
+            file_format: str = "",
+            edition_date: datetime = None,
+            edition_number: int = None,
+            product_name: str  = "",
+            product_url: str = ""
         ):
         self.geoname = Geoname(geoname)
         self.edition_name = edition_name
@@ -96,24 +96,37 @@ class ChartEdition:
 
 
     # TODO: tests
-    def get_chart_path(self, base_path: str) -> str:
-        """Returns a filename for a given chart edition"""
-        parts = []
-        parts.append(self.product_name)
-        parts.append(self.geoname.to_safe_str())
-        parts.append(self.edition_number)
-        parts.append(self.format_edition_date_for_fs())
-
-        return f"{base_path}/{ChartEdition.FILENAME_DELIM.join(parts)}.zip"
-
-
-    # TODO: tests
     def get_filename_prefix(self) -> str:
         """
         Returns the chart filename prefix (product name and geoname) without
         any version or date information, eg. "sectional_chicago"
         """
         return f"{self.product_name}_{self.geoname.to_safe_str()}"
+
+
+    # TODO: tests
+    def get_raster_path(self, rasters_base_path: str) -> str:
+        """Returns the raster path+filename for this chart edition"""
+        filename = self._generate_filename()
+        return f"{rasters_base_path}/{filename}.zip"
+
+
+    # TODO: tests
+    def get_mbtiles_path(self, mbtiles_base_path: str) -> str:
+        """Returns the mbtiles path+filename for this chart edition"""
+        filename = self._generate_filename()
+        return f"{mbtiles_base_path}/{filename}.mbtiles"
+
+
+    # TODO: tests
+    def _generate_filename(self) -> str:
+        parts = []
+        parts.append(self.product_name)
+        parts.append(self.geoname.to_safe_str())
+        parts.append(self.edition_number)
+        parts.append(self.format_edition_date_for_fs())
+
+        return ChartEdition.FILENAME_DELIM.join(parts)
 
 
     # TODO: tests

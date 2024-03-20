@@ -35,18 +35,18 @@ class FAAService:
 
 
     # TODO: tests
-    def is_chart_current(self, saved_chart: ChartEdition, api_chart: ChartEdition) -> bool:
+    def is_chart_current(self, saved_chart: ChartEdition, remote_chart: ChartEdition) -> bool:
         if saved_chart is None:
             return False
 
-        return saved_chart.edition_number >= api_chart.edition_number
+        return saved_chart.edition_number >= remote_chart.edition_number
 
 
     def download_chart(self, chart_edition: ChartEdition) -> str:
         """
         Downloads the chart file for chart_edition and saves to the filesystem
         """
-        path = self.filesystem.get_chart_path(chart_edition)
+        path = self.filesystem.get_raster_path(chart_edition)
 
         print(f"Downloading {chart_edition.product_url} to {path}")
         api.download_file(chart_edition.product_url, path)
