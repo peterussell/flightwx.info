@@ -1,24 +1,26 @@
 package info.flightwx.fetcher.services;
 
 import info.flightwx.fetcher.domain.ChartEdition;
-import info.flightwx.fetcher.infrastructure.AbstractFileSystem;
+import info.flightwx.fetcher.infrastructure.filesystem.FileSystem;
 import info.flightwx.fetcher.types.ChartType;
 import info.flightwx.fetcher.types.Geoname;
 
 public class FaaService implements IFaaService {
-    private final AbstractFileSystem fileSystem;
+    private final FileSystem fileSystem;
 
-    public FaaService(AbstractFileSystem fileSystem) {
+    public FaaService(FileSystem fileSystem) {
         this.fileSystem = fileSystem;
     }
 
+    @Override
     public ChartEdition GetVfrChartEdition(ChartType chartType, Geoname geoname) {
         // TODO
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException("Not implemented");
     }
 
+    @Override
     public String DownloadChart(ChartEdition chartEdition) {
         // TODO
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException("Not implemented");
     }
 }

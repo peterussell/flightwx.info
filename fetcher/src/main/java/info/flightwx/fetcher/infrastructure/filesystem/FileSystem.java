@@ -1,8 +1,8 @@
-package info.flightwx.fetcher.infrastructure;
+package info.flightwx.fetcher.infrastructure.filesystem;
 
 import info.flightwx.fetcher.domain.ChartEdition;
 
-public abstract class AbstractFileSystem {
+public abstract class FileSystem {
     public abstract ChartEdition GetLocalChartEdition(ChartEdition remoteChartEdition);
     public abstract void DeleteRaster(ChartEdition chartEdition);
     public abstract String GetRasterPath(ChartEdition chartEdition);
