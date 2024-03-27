@@ -1,16 +1,19 @@
 package info.flightwx.fetcher;
 
-import info.flightwx.fetcher.services.IFaaWebService;
-import info.flightwx.fetcher.services.FaaWebService;
+import info.flightwx.fetcher.infrastructure.AbstractFileSystem;
+import info.flightwx.fetcher.services.IFaaService;
+import info.flightwx.fetcher.services.FaaService;
 
 public class Fetcher {
-    private IFaaWebService faaWebService;
+    private IFaaService faaService;
 
-    public Fetcher(String baseUrl) {
-        this.faaWebService = new FaaWebService(baseUrl);
+    public Fetcher(AbstractFileSystem fileSystem) {
+        this.faaService = new FaaService(fileSystem);
+        // TODO
+        // this.chartService = new ChartService(faaService);
     }
 
     public void Run() {
-        this.faaWebService.UpdateCharts();
+        // TODO: this.chartService.UpdateSectionalCharts();
     }
 }

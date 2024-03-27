@@ -6,12 +6,24 @@
   <component name="ChangeListManager">
     <list default="true" id="459b0437-a7b9-40dd-bc0c-fda099b8ea02" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Dockerfile.staging" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/info/flightwx/fetcher/Fetcher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/info/flightwx/fetcher/Fetcher.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/info/flightwx/fetcher/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/info/flightwx/fetcher/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/info/flightwx/fetcher/domain/ChartEdition.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/info/flightwx/fetcher/domain/ChartEdition.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/info/flightwx/fetcher/services/FaaWebService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/info/flightwx/fetcher/services/FaaService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/info/flightwx/fetcher/services/IFaaWebService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/info/flightwx/fetcher/services/IFaaService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+        <option value="Interface" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
@@ -39,6 +51,9 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "last_opened_file_path": "/Users/pete/dev/flightwx.info/fetcher",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.0",
     "settings.editor.selected.configurable": "preferences.fileTypes"
   }
 }]]></component>
