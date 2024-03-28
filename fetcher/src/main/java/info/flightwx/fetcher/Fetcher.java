@@ -1,40 +1,33 @@
 package info.flightwx.fetcher;
 
+import info.flightwx.fetcher.infrastructure.api.FaaApi;
 import info.flightwx.fetcher.infrastructure.config.Config;
 import info.flightwx.fetcher.infrastructure.filesystem.FileSystem;
 import info.flightwx.fetcher.infrastructure.filesystem.LocalFileSystemFactory;
 import info.flightwx.fetcher.infrastructure.filesystem.S3FileSystemFactory;
+import info.flightwx.fetcher.services.ChartService;
 import info.flightwx.fetcher.services.FaaService;
-import info.flightwx.fetcher.services.IFaaService;
+import info.flightwx.fetcher.services.IChartService;
 
 public class Fetcher {
-    private FileSystem fileSystem;
-    private IFaaService faaService;
+    private final IChartService chartService;
 
     public Fetcher() throws InstantiationException {
-        initializeFileSystem();
-        initializeFaaService();
+        FaaService faaService = new FaaService(getFileSystem(), new FaaApi());
+        this.chartService = new ChartService(faaService);
     }
 
     public void Run() {
-        System.out.println("Hello from the Fetcher");
+        this.chartService.UpdateSectionalCharts();
     }
 
-    private void initializeFileSystem() {
-        String fsType = Config.GetConfig().get("FILESYSTEM");
+    private FileSystem getFileSystem() {
+        String fsType = Config.GetConfig().get("FILESYSTEM").toLowerCase();
 
-        if (fsType.equalsIgnoreCase("local")) {
-            this.fileSystem = new LocalFileSystemFactory().Create();
-        } else if (fsType.equalsIgnoreCase("s3")) {
-            this.fileSystem = new S3FileSystemFactory().Create();
-        }
-    }
-
-    private void initializeFaaService() throws InstantiationException {
-        if (this.fileSystem == null) {
-            throw new InstantiationException("Failed to create FAAService, no file system configured. Check .env FILESYSTEM value.");
-        }
-
-        this.faaService = new FaaService(this.fileSystem);
+        return switch (fsType) {
+            case "local" -> new LocalFileSystemFactory().Create();
+            case "s3" -> new S3FileSystemFactory().Create();
+            default -> throw new IllegalArgumentException("Invalid file system type " + fsType);
+        };
     }
 }
