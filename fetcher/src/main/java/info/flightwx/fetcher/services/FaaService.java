@@ -18,14 +18,20 @@ public class FaaService implements IFaaService {
         this.faaApi = faaApi;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ChartEdition GetVfrChartEdition(ChartType chartType, Geoname geoname) {
-        // TODO
+        // TODO - working here
         throw new UnsupportedOperationException("Not implemented");
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public String DownloadChart(ChartEdition chartEdition) {
+    public void DownloadChart(ChartEdition chartEdition) {
         // TODO
         throw new UnsupportedOperationException("Not implemented");
     }

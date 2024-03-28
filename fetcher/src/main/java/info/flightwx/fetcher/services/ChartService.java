@@ -9,6 +9,9 @@ public class ChartService implements IChartService {
         this.faaService = faaService;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ArrayList<String> UpdateSectionalCharts() {
         System.out.println("Updating sectional charts...");
